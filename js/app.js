@@ -71,7 +71,7 @@ $(document).ready(function(){
 	/* Q7 */
 	var q7 = Object.create(Question);
 	q7.question = "A crab is";
-    q7.options = ["another term for the coxswain", "An error made that causes the oar to be caught in the water, slowing the boat down", "When the siding seat becomes derailed from it's track", "The part of the stroke when the oar blade enters the water"];
+    q7.options = ["Another term for the coxswain", "An error made that causes the oar to be caught in the water, slowing the boat down", "When the siding seat becomes derailed from it's track", "The part of the stroke when the oar blade enters the water"];
     q7.answer = 1;
     q7.explanation = "A rower can 'catch a crab' when they have failed to cleanly remove the oar blade from the water and the oar blade acts as a brake on the boat. This results in slowing the boat down. A severe crab can even eject a rower out of the shell or in a small boat, cause the boat to capsize. In a severe crab, the oar handle will knock the rower flat and will end up behind him/her";   
 	questionList.push(q7);
@@ -79,7 +79,7 @@ $(document).ready(function(){
 	/* Q8 */
 	var q8 = Object.create(Question);
 	q8.question = "To feather is";
-    q8.options = ["wear fancy hats during a regatta", "to make an error where the rower begins the drive before the oar is in the water", "when all rowers stop rowing", "to turn the oar blade parallel with the surface of the water"];
+    q8.options = ["Wear fancy hats during a regatta", "To make an error where the rower begins the drive before the oar is in the water", "When all rowers stop rowing", "To turn the oar blade parallel with the surface of the water"];
     q8.answer = 3;
     q8.explanation = "To feather is turn the oar so that the blade is parallel to the surface of the water.  The blade will be squared when in the water, and feathered when out of the water.";   
 	questionList.push(q8);
@@ -87,7 +87,7 @@ $(document).ready(function(){
 	/* Q9 */
 	var q9 = Object.create(Question);
 	q9.question = "'Way-enough' means";
-    q9.options = ["row as hard as you can", "row lightly", "stop rowing", "row backwards"];
+    q9.options = ["Row as hard as you can", "Row lightly", "Stop rowing", "Row backwards"];
     q9.answer = 2;
     q9.explanation = "The command 'Way enough' is to stop whatever the rower is doing, whether it be rowing or walking with the boat. 'Way' is a nautical term for the movement of a boat through water, so the command 'way enough', literally means to enough moving the boat. ";   
 	questionList.push(q9);
@@ -112,6 +112,9 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
+	/* Hide answer explanation modal box */
+  	$(".overlay .answer").fadeOut(1000);
+
   	
   	/* Hide gameOver modal box */
   	$("a.closeGameOver").click(function(){
@@ -123,7 +126,7 @@ $(document).ready(function(){
 	
 	function askQuestion (qIndex) {
 		$('h2.question').text("Question " + (qIndex+1));
-		$('h3').text(questionList[qIndex].question);
+		$('h3.question').text(questionList[qIndex].question);
 		for (var i=0; i < questionList[qIndex].options.length; i++) {
 		    $('ol.options').append('<li class=' + i + '>'+ questionList[qIndex].options[i] + '</li>');
 		}
@@ -134,15 +137,20 @@ $(document).ready(function(){
 
 	function checkAnswer(answer){
 		
-		/* answer checking & reporting TBD */
-
-		if (current_question < questionList.length()) {	
-			current_question++;
-			askQuestion(current_question);
+		/* answer checking & reporting */
+		if (answer == questionList[current_question].answer) {
+			$('h3.status').text("You're Correct!");
 		}
 		else {
-			/* end game & provide final score */
+			$('h3.status').text("You're Answer is Incorrect");
 		};
+
+		/* display explanation where correct or incorrect */
+		$('h3.status p').text(questionList[current_question].explanation);
+		
+		/* Display answer modal box */
+    	$(".overlay .answer").fadeIn(1000);
+  	
 	};
 	
 
@@ -161,15 +169,32 @@ $(document).ready(function(){
 	/*-- listen for answer response --*/
 	$('ol.options').on ('click', 'li', function (event) {
 		event.preventDefault();
-		console.log ($(this) )
+		console.log ($(this) );
 		user_answer = $(this).attr ('class');
 		checkAnswer(user_answer);
+		$('ol.options li').remove();
 	});		
 
 	
 	/*-- listen for completion of answer explanation --*/
-	$()
+	$('a.next').click( function (event) {
+		event.preventDefault();
+		/* Hide answer explanation modal box */
+  		$(".overlay .answer").fadeOut(1000);
+  
+		console.log ($(this) );
+		/* check if we've reached the end of the questions */
+		if (current_question < questionList.length) {	
+			current_question++;
+			askQuestion(current_question);
+		}
+		else {
+			/* TBD: end game & provide final score */
+		};
+	});
 			
+
+				
 
 
 });

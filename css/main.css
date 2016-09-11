@@ -68,6 +68,32 @@ ol .options {
 }
 
 
+/*style for answer modal*/
+.overlay .answer {
+	width: 66%;
+	height: 100%;
+	background: slateblue;
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	margin: 0;
+	z-index: 1000;
+	display: none;
+}
+
+.content {
+	color: #fff;
+	position: relative;
+	height: auto;
+	width: 600px;
+	border-radius: 3px;
+	top: 15%;
+	margin: auto auto;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+
+
 
 
 
