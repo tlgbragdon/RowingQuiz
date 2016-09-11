@@ -1,0 +1,74 @@
+
+
+
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	width: 75%;
+	margin: 20px auto;
+
+    font-family: 'Handlee', cursive;
+
+    /* font-family: 'Nothing You Could Do', cursive; */
+
+	background-color: lightsteelblue;
+	text-align: center;
+	
+}
+
+logo {
+	font-size: 3em;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+ul li {	
+	display: inline;
+}
+
+
+nav {
+	position: relative;
+	height: 10%;
+	padding: 2em;
+}
+
+nav ul li {
+	font-weight: 700;
+	font-size: 1.5em;
+}
+
+nav ul li:first-child {
+	float: left;
+}
+
+nav ul li:last-child {
+	float: right;
+}
+
+
+ol .options {
+	list-style-type: upper-alpha;
+}
+
+.game {
+	position: relative;
+	width: 50%;
+	border-radius: 4px;
+	margin: 20px auto;
+
+}
+
+
+
+
+
+
