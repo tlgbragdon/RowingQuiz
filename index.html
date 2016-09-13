@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Rowing Terminology Quiz</title>
 		<meta charset="utf-8"/>
+		<title>Rowing Terminology Quiz</title>
 		<meta name="description" content="Test your knowledge of common rowing terms with this fun quiz!">
 		<meta name="keywords" content="rowing, sculling, rowing terms">
-				<!-- Stylesheets -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Handlee|Nothing+You+Could+Do" rel="stylesheet"> 
-		<link rel="stylesheet" href="css/main.css"/> 
+		<!-- Stylesheets -->
+		<!-- browser reset -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+		<!-- fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Handlee|Nothing+You+Could+Do" > 
+		<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/2a52d94a6b.js">
+		<!-- styles -->
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 	<body>
 		
 		<header> <!--Header -->
-			<logo> Rowing Quiz</logo>
+			<div class="logo"> Rowing Quiz</div>
 
 			<!-- Navigation -->
 			<nav> 
@@ -30,7 +34,6 @@
 				<div class="content">
 					<h3>How to Play</h3>
 					<div>
-						
 						<a class="close" href="#">Got It!</a>
 					</div>
 				</div>
@@ -44,12 +47,12 @@
 		<!-- Q & A section -->
 		<section class="game"> 
 			
-			<h2 class="question">Question Header</h2>
+			<h2><span class="fa fa-bullhorn" aria-hidden="true"></span>
+			    <span class="qHeader">Question</span></h2>
 			<h3 class="question">Question Prompt</h3>
-			<ol class="options">
+			<ol class="choices">
 			</ol>
-
-
+			
 		</section>
 
 		<!-- Results section  -->
@@ -62,20 +65,23 @@
 			<div class="overlay answer">
 				<div class="content">
 					<h3 class="status"></h3>
-						<p>
-						</p>
-						<a class="next" href="#">Next</a>
+					<p>
+					</p>
+					<a class="next" href="#">Next</a>
 				</div>
 			</div>
 
 			<!-- display progress in game  -->
-			<div class="course boat user">
-				TBD: User status display here
+			<div class="boat"> Your Boat:
+				<div class="course user">
+					<span class="fa fa-bullhorn" aria-hidden="true"></span>
+				</div>
 			</div>
-			<div class="course boat pace">
-				TBD: Pace Boat display here
+			<div class="boat"> Pace Boat:
+				<div class="course pace">
+					<span class="fa fa-bullhorn" aria-hidden="true"></span>
+				</div>
 			</div>
-
 		</section>
 
 

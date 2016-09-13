@@ -21,10 +21,10 @@ $(document).ready(function(){
 	
 	/* Q1 */
 	var q1 = Object.create(Question);	
-	q1.question = "Rowing regattas can be of varied course length.  A 3-mile twisting course is known as what kind of race?";
+	q1.question = "Rowing regattas can be of varied course length.  A twisting 3-mile course is known as what kind of race?";
     q1.options = ["Sprint", "Repechage", "Head", "Slalom"];
     q1.answer = 2;
-    q1.explanation = "A head race is a long race for time with a staggered start.  They are usually held in the fall.  Sprint races are the tradiional spring race and where crews run head-to-head.  Distances can be 1,000 - 2,000 meters.  Repechage is a second race for crews that did not make the finals.";
+    q1.explanation = "A head race is a long race, often about 3 miles, for time, and is usually held in the fall. Head races have a staggered start with 30 seconds to 1-minute between crews. Sprint races are the traditional spring race where crews run head-to-head.  Sprint distances can be 1,000 - 2,000 meters.  Repechage is a second race for crews that did not make it to the sprint finals.";
 	questionList.push(q1);
 
 	/* Q2 */	
@@ -73,7 +73,7 @@ $(document).ready(function(){
 	q7.question = "A crab is";
     q7.options = ["Another term for the coxswain", "An error made that causes the oar to be caught in the water, slowing the boat down", "When the siding seat becomes derailed from it's track", "The part of the stroke when the oar blade enters the water"];
     q7.answer = 1;
-    q7.explanation = "A rower can 'catch a crab' when they have failed to cleanly remove the oar blade from the water and the oar blade acts as a brake on the boat. This results in slowing the boat down. A severe crab can even eject a rower out of the shell or in a small boat, cause the boat to capsize. In a severe crab, the oar handle will knock the rower flat and will end up behind him/her";   
+    q7.explanation = "A rower can 'catch a crab' when they have failed to cleanly remove the oar blade from the water and the oar blade acts as a brake on the boat. This results in slowing the boat down. A severe crab can even eject a rower out of the shell or, in a small boat, cause the boat to capsize. In a severe crab, the oar handle will knock the rower flat and will end up behind him/her.";   
 	questionList.push(q7);
 
 	/* Q8 */
@@ -112,9 +112,6 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-	/* Hide answer explanation modal box */
-  	$(".overlay .answer").fadeOut(1000);
-
   	
   	/* Hide gameOver modal box */
   	$("a.closeGameOver").click(function(){
@@ -125,10 +122,10 @@ $(document).ready(function(){
   	/*--- present next question to user ---*/
 	
 	function askQuestion (qIndex) {
-		$('h2.question').text("Question " + (qIndex+1));
+		$('span.qHeader').text("Question " + (qIndex+1) + ":");
 		$('h3.question').text(questionList[qIndex].question);
 		for (var i=0; i < questionList[qIndex].options.length; i++) {
-		    $('ol.options').append('<li class=' + i + '>'+ questionList[qIndex].options[i] + '</li>');
+		    $('ol.choices').append('<li class=' + i + '><p>'+ questionList[qIndex].options[i] + '</p></li>');
 		}
 
 	};
@@ -145,11 +142,11 @@ $(document).ready(function(){
 			$('h3.status').text("You're Answer is Incorrect");
 		};
 
-		/* display explanation where correct or incorrect */
-		$('h3.status p').text(questionList[current_question].explanation);
+		/* display explanation whether correct or incorrect */
+		$('h3.status +p').text(questionList[current_question].explanation);
 		
 		/* Display answer modal box */
-    	$(".overlay .answer").fadeIn(1000);
+    	$(".overlay.answer").fadeIn(1000);
   	
 	};
 	
@@ -166,13 +163,14 @@ $(document).ready(function(){
 	/*--- need to begin by asking the first question --*/
 	askQuestion(0);
 
+	
 	/*-- listen for answer response --*/
-	$('ol.options').on ('click', 'li', function (event) {
+	$('ol.choices').on ('click', 'li', function (event) {
 		event.preventDefault();
 		console.log ($(this) );
 		user_answer = $(this).attr ('class');
 		checkAnswer(user_answer);
-		$('ol.options li').remove();
+		$('ol.choices li').remove();
 	});		
 
 	
@@ -180,7 +178,7 @@ $(document).ready(function(){
 	$('a.next').click( function (event) {
 		event.preventDefault();
 		/* Hide answer explanation modal box */
-  		$(".overlay .answer").fadeOut(1000);
+  		$(".overlay.answer").fadeOut(1000);
   
 		console.log ($(this) );
 		/* check if we've reached the end of the questions */

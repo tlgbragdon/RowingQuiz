@@ -1,49 +1,57 @@
 
 
-
-
 html {
 	width: 100%;
 	height: 100%;
 }
 
 body {
-	position: relative;
-	width: 75%;
+	/* position: relative; */
+	width: 80%;
 	margin: 20px auto;
 
     font-family: 'Handlee', cursive;
 
     /* font-family: 'Nothing You Could Do', cursive; */
 
-	background-color: lightsteelblue;
+	background-image: url('../images/bow-from-above.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 	text-align: center;
 	
 }
 
-logo {
-	font-size: 3em;
+.logo {
+	color:white;
+	font-size: 4em;
+	text-shadow: 2px 2px black;
 }
 
 a {
 	text-decoration: none;
-	color: black;
+	color: white;
+	text-shadow: 1px 1px gray;
+	
 }
-
-ul li {	
-	display: inline;
-}
-
 
 nav {
-	position: relative;
-	height: 10%;
+	width: 50%;
+	margin: 20px auto;
 	padding: 2em;
 }
 
+nav ul {
+	overflow: hidden;  /* this will keep the floating li within the ul container */
+	height: auto;
+}
+
 nav ul li {
+	display: inline;
 	font-weight: 700;
 	font-size: 1.5em;
+	background-color: #b3003b;
+	padding: 10px;
+	border-radius: 5px;
 }
 
 nav ul li:first-child {
@@ -54,42 +62,97 @@ nav ul li:last-child {
 	float: right;
 }
 
+/*-- game elements --*/
+h2 {
+	font-size: 200%;
+}
+h3 {
+	font-size: 150%; 
+}
 
-ol .options {
+ol.choices {
 	list-style-type: upper-alpha;
+	text-align: left;
+	width: auto;
+	list-style-position: inside; 
+	font-size: 150%;
+}
+
+ol.choices li {
+	padding-left: 15px;
+	margin-left: 5px;
+}
+
+ol.choices li:hover {
+
+	background-color: #b3003b;
+	color:white;
+
+}
+
+
+span.fa-bullhorn {
+	padding-right: 5px;
 }
 
 .game {
+	
 	position: relative;
-	width: 50%;
-	border-radius: 4px;
+	width: 70%;
+	background-color: lightsteelblue;
+	border-radius: 5px;
+	padding: 20px;
 	margin: 20px auto;
 
 }
 
 
 /*style for answer modal*/
-.overlay .answer {
-	width: 66%;
-	height: 100%;
-	background: slateblue;
+.overlay.answer {
+	width: 55%;
+	background: #6f93c3;
+	border-radius: 5px;
 	position: absolute;
-	top: 50px;
-	left: 50px;
+	top: 460px;
+	left: 245px;
 	margin: 0;
 	z-index: 1000;
 	display: none;
 }
 
+
 .content {
-	color: #fff;
-	position: relative;
-	height: auto;
-	width: 600px;
-	border-radius: 3px;
-	top: 15%;
-	margin: auto auto;
-	border: 1px solid rgba(0,0,0,0.1);
+	padding: 15px;
+	/* margin: auto auto; */
+}
+
+.content>p {
+	color: black;
+	font-size: 125%;
+
+}
+
+h3.status {
+	color: #b3003b;
+}
+
+a.next {
+	background-color: #b3003b;
+	padding: 7px;
+	border-radius: 5px;
+}
+
+.boat {
+	/* display: inline-block; */
+}
+
+.course {
+	width: 75%;
+	height: 25px;
+	border: 2px solid black;
+	margin: 10px auto;
+	display: block;
+
 }
 
 
