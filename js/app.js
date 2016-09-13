@@ -170,20 +170,22 @@ $(document).ready(function(){
 		console.log ($(this) );
 		user_answer = $(this).attr ('class');
 		checkAnswer(user_answer);
-		$('ol.choices li').remove();
+		
 	});		
 
 	
 	/*-- listen for completion of answer explanation --*/
 	$('a.next').click( function (event) {
 		event.preventDefault();
+		/* remove previous choices */
+		$('ol.choices li').remove();
 		/* Hide answer explanation modal box */
   		$(".overlay.answer").fadeOut(1000);
   
 		console.log ($(this) );
 		/* check if we've reached the end of the questions */
+		current_question++;
 		if (current_question < questionList.length) {	
-			current_question++;
 			askQuestion(current_question);
 		}
 		else {
