@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
 		<!-- fonts -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Handlee|Nothing+You+Could+Do" > 
-		<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/2a52d94a6b.js">
+		<script src="https://use.fontawesome.com/2a52d94a6b.js"></script>
 		<!-- styles -->
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
@@ -23,7 +23,7 @@
 			<nav> 
 				<ul>
 					<li><a class="start" href="#">Start Game</a></li>
-					<li><a class="help" href="#">How To Play</a></li>
+					<li><a class="help" href="#">Help</a></li>
 				</ul>
 			</nav>
 			
@@ -45,23 +45,10 @@
 		</header>
 
 		<!-- Q & A section -->
-		<section class="game"> 
-			
-			<h2><span class="fa fa-bullhorn" aria-hidden="true"></span>
-			    <span class="qHeader">Question</span></h2>
-			<h3 class="question">Question Prompt</h3>
-			<ol class="choices">
-			</ol>
-			
-		</section>
-
-		<!-- Results section  -->
-
-
-		<section class="results">
+		<section class="q-a"> 
 
 			<!-- Modal Answer Box -->
-			
+			<!-- feedback on answer & explanation present to user -->
 			<div class="overlay answer">
 				<div class="content">
 					<h3 class="status"></h3>
@@ -70,18 +57,63 @@
 					<a class="next" href="#">Next</a>
 				</div>
 			</div>
-
-			<!-- display progress in game  -->
-			<div class="boat"> Your Boat:
-				<div class="course user">
-					<span class="fa fa-bullhorn" aria-hidden="true"></span>
-				</div>
+			
+			<!-- question presented to user -->
+			<div class="game">
+				<h2><span class="fa fa-bullhorn" aria-hidden="true"></span>
+				    <span class="qHeader">Question</span></h2>
+				<h3 class="question">Question Prompt</h3>
+				<ol class="choices">
+				</ol>
 			</div>
+			
+		</section>
+
+		<!-- Results graphic  -->
+
+		<section class="results">
+
+			<!-- display overall progress in game  -->
+			Your Boat: <span class="fa fa-bullhorn" aria-hidden="true"></span>
+			<div class="user-progress"> 
+			    
+				<div id="user-boat">
+					<img src="images/scull50.jpg">
+
+				</div>
+				<!--
+				<span class="fa-stack">
+  					<i class="fa fa-circle fa-stack-2x"></i>
+  					<i class="fa fa-flag-checkered fa-stack-1x fa-inverse"></i>
+				</span>
+				-->
+			</div>
+
+			Pace Boat: <span class="fa fa-bullhorn" aria-hidden="true"></span>
+			<div class="pace-progress"> 
+				<div id="pace-boat">
+					<img src="images/scull50.jpg">
+				</div>
+				<!--
+				<span class="fa-stack">
+  					<i class="fa fa-circle fa-stack-2x"></i>
+  					<i class="fa fa-flag-checkered fa-stack-1x fa-inverse"></i>
+				</span>
+				-->
+			</div>
+
+			<!--
 			<div class="boat"> Pace Boat:
 				<div class="course pace">
 					<span class="fa fa-bullhorn" aria-hidden="true"></span>
 				</div>
+				<span class="fa-stack">
+  					<i class="fa fa-circle fa-stack-2x"></i>
+  					<i class="fa fa-flag-checkered fa-stack-1x fa-inverse"></i>
+				</span>
 			</div>
+			-->
+
 		</section>
 
 

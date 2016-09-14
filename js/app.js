@@ -2,10 +2,10 @@
 $(document).ready(function(){
 
 	/*--- global vars ---*/
-	var current_question = 0;
-	var pace_score = 0;
+	var last_question = 0;
+	var current_question = 1;
 	var user_answer = 0;
-	var user_score = 0;
+	var user_score = 0
 
 	/* Question object */
 
@@ -113,20 +113,36 @@ $(document).ready(function(){
   	});
 
   	
+  	/* start new game */
+  	$(".start").click(function(){
+  		newGame();
+  	});
+
+
   	/* Hide gameOver modal box */
   	$("a.closeGameOver").click(function(){
   		$(".gameOver").fadeOut(1000);
   	});
 
 
+ 
+	function advanceBoat(boat, count) {
+	    var elem = document.getElementById(boat);
+	    var width = 1;
+        width = 10*count;  /* 10 questions, so move 10% each correct answer */
+	    elem.style.width = width + '%';
+	};
+
+
   	/*--- present next question to user ---*/
 	
-	function askQuestion (qIndex) {
-		$('span.qHeader').text("Question " + (qIndex+1) + ":");
-		$('h3.question').text(questionList[qIndex].question);
-		for (var i=0; i < questionList[qIndex].options.length; i++) {
-		    $('ol.choices').append('<li class=' + i + '><p>'+ questionList[qIndex].options[i] + '</p></li>');
+	function askQuestion () {
+		$('span.qHeader').text("Question " + (current_question) + ":");
+		$('h3.question').text(questionList[current_question-1].question);
+		for (var i=0; i < questionList[current_question-1].options.length; i++) {
+		    $('ol.choices').append('<li class=' + i + '><p>'+ questionList[current_question-1].options[i] + '</p></li>');
 		}
+
 
 	};
 
@@ -134,39 +150,75 @@ $(document).ready(function(){
 
 	function checkAnswer(answer){
 		
+		/* prevent user from answering same question repeatedly */
+
+		if (current_question == last_question)
+			return;
+
+		last_question = current_question;
 		/* answer checking & reporting */
-		if (answer == questionList[current_question].answer) {
+		if (answer == questionList[current_question-1].answer) {
 			$('h3.status').text("You're Correct!");
+			user_score++;
+			/* advance boat in progess bar */
+			advanceBoat ('user-boat', user_score);
 		}
 		else {
 			$('h3.status').text("You're Answer is Incorrect");
 		};
 
+		/* advance pace boat in progress bar */
+		advanceBoat ('pace-boat', current_question); 
+
 		/* display explanation whether correct or incorrect */
-		$('h3.status +p').text(questionList[current_question].explanation);
+		$('h3.status +p').text(questionList[current_question-1].explanation);
 		
 		/* Display answer modal box */
     	$(".overlay.answer").fadeIn(1000);
   	
 	};
 	
+	function reportFinalResults() {
+		if (user_score == 10) {
+			$('span.qHeader').text("Congratulations!");
+			$('h3.question').text("You won the gold medal for "+ user_score + " out of 10!");
+		}
+		else if (user_score > 6) {
+			$('span.qHeader').text("Great Race!");
+			$('h3.question').text("You came so close to winning, you won "+ user_score + " out of 10. Try again!");
+		}
+		else if (user_score > 4 ) {
+			$('span.qHeader').text("Good Start!");
+			$('h3.question').text("You're doing great for a beginner, you got "+ user_score + " out of 10.  Keep up the good work!");
+		} 
+		else {
+			$('span.qHeader').text("Good Try");
+			$('h3.question').text(user_score + "correct out of 10. Keep Practicing!");
+		}
+		
+	};
 
 	/*-- reset globals for new game --*/
 	function newGame() {
-		current_question = 0;
+		last_question = -0;
+		current_question = 1;
 		user_score = 0;
 		user_answer = 0;
-		pace_score = 0;
+
+		/* TBD - need to remove any existing data */
+
+		/*--- need to begin by asking the first question --*/	
+		askQuestion(current_question);
 	};
 	
 	
-	/*--- need to begin by asking the first question --*/
-	askQuestion(0);
+	newGame();
 
 	
 	/*-- listen for answer response --*/
 	$('ol.choices').on ('click', 'li', function (event) {
 		event.preventDefault();
+		event.stopPropagation();
 		console.log ($(this) );
 		user_answer = $(this).attr ('class');
 		checkAnswer(user_answer);
@@ -177,6 +229,8 @@ $(document).ready(function(){
 	/*-- listen for completion of answer explanation --*/
 	$('a.next').click( function (event) {
 		event.preventDefault();
+		event.stopPropagation();
+
 		/* remove previous choices */
 		$('ol.choices li').remove();
 		/* Hide answer explanation modal box */
@@ -185,15 +239,14 @@ $(document).ready(function(){
 		console.log ($(this) );
 		/* check if we've reached the end of the questions */
 		current_question++;
-		if (current_question < questionList.length) {	
+		if (current_question <= questionList.length) {	
 			askQuestion(current_question);
 		}
 		else {
-			/* TBD: end game & provide final score */
+			/* all questions answered, report final results */
+			reportFinalResults();
 		};
 	});
-			
-
 				
 
 

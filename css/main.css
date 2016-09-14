@@ -1,24 +1,17 @@
 
-
 html {
 	width: 100%;
-	height: 100%;
 }
 
 body {
-	/* position: relative; */
-	width: 80%;
+	width: 640px;
 	margin: 20px auto;
-
     font-family: 'Handlee', cursive;
-
     /* font-family: 'Nothing You Could Do', cursive; */
-
 	background-image: url('../images/bow-from-above.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-align: center;
-	
 }
 
 .logo {
@@ -31,18 +24,20 @@ a {
 	text-decoration: none;
 	color: white;
 	text-shadow: 1px 1px gray;
-	
 }
 
 nav {
-	width: 50%;
-	margin: 20px auto;
+	width: 95%;
+	margin:0;
 	padding: 2em;
 }
 
 nav ul {
 	overflow: hidden;  /* this will keep the floating li within the ul container */
 	height: auto;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
 nav ul li {
@@ -97,25 +92,22 @@ span.fa-bullhorn {
 
 .game {
 	
-	position: relative;
-	width: 70%;
+	width: 95%;
 	background-color: lightsteelblue;
 	border-radius: 5px;
 	padding: 20px;
-	margin: 20px auto;
-
+	margin: auto;
 }
 
 
 /*style for answer modal*/
 .overlay.answer {
-	width: 55%;
+	width: 85%;
 	background: #6f93c3;
 	border-radius: 5px;
 	position: absolute;
-	top: 460px;
-	left: 245px;
-	margin: 0;
+	top: 400px;
+	left: 100px;
 	z-index: 1000;
 	display: none;
 }
@@ -142,18 +134,71 @@ a.next {
 	border-radius: 5px;
 }
 
+
+/*-- progress/status bar elements --*/
+.results {
+	width: 90%;
+	margin: auto;
+	color:white;
+	font-size: 1.5em;
+}
+.user-progress, .pace-progress {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	background-color: #81a1ca;
+}
+
+#user-boat, #pace-boat {
+	position: absolute;
+	width: 1%;
+	height: 100%;
+}
+
+#user-boat {
+	
+	background-color: lime;
+}
+
+#pace-boat {
+	
+	background-color: darkturquoise;
+}
+
+#user-boat img {
+	float: right;
+}
+
+#pace-boat img {
+	float: right;
+}
+
 .boat {
-	/* display: inline-block; */
+	text-align: left;
+	position: relative;
+	width: 70%;
+	color:white;
+	font-size: 1.5em;
+}
+
+.boat span {
+	text-align: right;
+	color:black;
+	text-shadow: white;
+	font-size: 1.5em;
 }
 
 .course {
-	width: 75%;
-	height: 25px;
+	width: 100%;
+	height: 40px;
 	border: 2px solid black;
 	margin: 10px auto;
-	display: block;
+	display: inline-block;
+	background-color: #81a1ca;
 
 }
+
+.
 
 
 
