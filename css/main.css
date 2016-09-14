@@ -57,6 +57,43 @@ nav ul li:last-child {
 	float: right;
 }
 
+/*style for help modal*/
+.overlay.help {
+	width: 100%;
+	height: 100%;
+	background: #6f93c3;
+	border-radius: 5px;
+	padding: 50px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+	display: none;
+}
+
+.overlay.help > .content {
+	width: 640px;
+	margin: auto;
+}
+
+.overlay.help ul {
+	text-align: left;
+	font-size: 1.5em;
+	list-style-type: none;
+	padding: 10px;
+}
+
+.overlay.help li {
+	padding-bottom: 15px;
+}
+
+a.close {
+	background-color: #b3003b;
+	padding: 7px;
+	border-radius: 5px;
+	margin: 15px;
+}
+
 /*-- game elements --*/
 h2 {
 	font-size: 200%;
