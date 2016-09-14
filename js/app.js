@@ -21,10 +21,10 @@ $(document).ready(function(){
 	
 	/* Q1 */
 	var q1 = Object.create(Question);	
-	q1.question = "Rowing regattas can be of varied course length.  A twisting 3-mile course is known as what kind of race?";
+	q1.question = "Rowing regattas can be of varied course length.  A twisting three-mile long course is known as what kind of race?";
     q1.options = ["Sprint", "Repechage", "Head", "Slalom"];
     q1.answer = 2;
-    q1.explanation = "A head race is a long race, often about 3 miles, for time, and is usually held in the fall. Head races have a staggered start with 30 seconds to 1-minute between crews. Sprint races are the traditional spring race where crews run head-to-head.  Sprint distances can be 1,000 - 2,000 meters.  Repechage is a second race for crews that did not make it to the sprint finals.";
+    q1.explanation = "A head race is a long race, often about 3 miles, for time, and is usually held in the fall. Head races have a staggered start with 15 to 30 second intervals between crews. Sprint races are the traditional spring race where crews run head-to-head.  Sprint distances can be 1,000 - 2,000 meters.  Repechage is a second race for crews that did not make it to the sprint finals.";
 	questionList.push(q1);
 
 	/* Q2 */	
@@ -32,7 +32,7 @@ $(document).ready(function(){
 	q2.question = "Which is NOT a portion of an oar?";
     q2.options = ["Collar", "Button", "Blade", "Slide"];
     q2.answer = 3;
-    q2.explanation = "The collar is the wide ring around the oar where the oar sits in the oarlock.  The button stops the oar from slipping out of the oarlock.  The blade is the of the oar, most often shaped like a hatchet. The slide is the correct answer as that is the seat for the rower.";
+    q2.explanation = "The collar is the wide ring around the oar where the oar sits in the oarlock.  The button stops the oar from slipping out of the oarlock.  The blade is the end of the oar, most often shaped like a hatchet. The slide is the only component listed that is not part of the oar.  The slide is the moving seat for the rower.";
 	questionList.push(q2);
 
 	/* Q3 */
@@ -89,7 +89,7 @@ $(document).ready(function(){
 	q9.question = "'Way-enough' means";
     q9.options = ["Row as hard as you can", "Row lightly", "Stop rowing", "Row backwards"];
     q9.answer = 2;
-    q9.explanation = "The command 'Way enough' is to stop whatever the rower is doing, whether it be rowing or walking with the boat. 'Way' is a nautical term for the movement of a boat through water, so the command 'way enough', literally means to enough moving the boat. ";   
+    q9.explanation = "The command 'Way enough' is to stop whatever the rower is doing, whether it be rowing or walking with the boat. 'Way' is a nautical term for the movement of a boat through water.";   
 	questionList.push(q9);
 
 	/* Q10 */
@@ -128,8 +128,8 @@ $(document).ready(function(){
  
 	function advanceBoat(boat, count) {
 	    var elem = document.getElementById(boat);
-	    var width = 1;
-        width = 10*count;  /* 10 questions, so move 10% each correct answer */
+	    var width = 10;
+        width = 10+(9*count);  /* 10 questions, but we will start at 10%, so move 9% for each correct answer */
 	    elem.style.width = width + '%';
 	};
 
@@ -204,6 +204,10 @@ $(document).ready(function(){
 		current_question = 1;
 		user_score = 0;
 		user_answer = 0;
+		var elem = document.getElementById("user-boat");
+		elem.style.width = '9%';
+		elem = document.getElementById("pace-boat");
+		elem.style.width = '9%';
 
 		/* TBD - need to remove any existing data */
 
