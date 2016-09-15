@@ -1,38 +1,59 @@
 
-$(document).ready(function(){
-
-
-	/*-- Question object --*/
+	/*** -- Question object --***
+		 There is one Question object for each question.
+		 - a Question consists of:
+		 - the text string of the question
+		 - an array of potential answers
+		 - the index of the correct answer option
+		 - an explanation of the answer
+	***/
 	var Question = {
 		question: "",
 		options: [],
 		answer: 0,		/* index of correct answer */
 		explanation: "",
 
-		/* method returns true if userAnswer matches answer or false otherwise */
-		correctAnswer: function (userAnswer) {
-			return (userAnswer == this.answer);
+		/* method returns:
+		   true if answer index provided matches the correct answer index
+		   or false otherwise */
+		correctAnswer: function (answer) {
+			return (answer == this.answer);
 		},
 
+		/* returns the string of the question */
 		getQuestion: function () {
-			return [this.question, this.options];
+			return this.question;
 		},
 
+		/* returns an array of answer options */
+		getOptions: function () {
+			return this.options;
+		},
+
+		/* returns explanation of answer */
 		getExplanation: function () {
 			return this.explanation;
 		}
 
 	};
 
-	/*-- Quiz Game object --*/
+	/***-- Quiz Game object ***
+		Quiz object contains the state of the current game
+		- list of questions
+		- index of current question
+		- index of last question answered by user
+		- user's answer (index) for current question
+		- user's score so far
+	***/
+
 	var Quiz = {
 		questionList: [],	  /* array of Question objects */
-		last_question: 0,	  /* index of last question answered */
 		current_question: 0,  /* index of current question */
+		last_question: 0,	  /* index of last question answered */
 		user_answer: 0,
 		user_score: 0,	
 
-		/* method adds question to game */
+		/* method adds question data to game */
 		addQuestion: function (question, options, answer, explanation) {
 			var q = Object.create(Question);	
 			q.question = question;
@@ -42,92 +63,55 @@ $(document).ready(function(){
 			this.questionList.push(q);
 		},
 
-		/* returns current question text & array of answer options */
-		getCurrentQuestion: function() {
-			return this.questionList[current_question].getQuestion();
+		/* returns current question text & options  */
+		getCurrentQuestion: function(question, options) {
+			return {quest: this.questionList[this.current_question].getQuestion(),
+					options: this.questionList[this.current_question].getOptions() };
 		},
 
 		/* returns explanation text of current question */
 		getCurrentExplanation: function () {
-			return this.questionList[current_question].getExplanation();
+			return this.questionList[this.current_question].getExplanation();
 		},
 
-		/* saves user_answer and returns true if correct; false if incorrect */
+		/* Saves user_answer and returns true if correct; false if incorrect 
+		   Updates user's running score 
+		   Tracks last question answered to track multiple attempts to answer same question
+		*/
 		isCorrectAnswer: function(userAnswer) {
 			this.user_answer = userAnswer;
 			this.last_question = this.current_question;
-			if (this.questionList[current_question].correctAnswer()){
-				user_score++;
+			if (this.questionList[this.current_question].correctAnswer(userAnswer)){
+				this.user_score++;
 				return true;
 			}
 			else 
 				return false;
 		},
 
+		/* used to verify that an answer selection is not made again
+		   which could happen while one of the modal boxes are waiting for input
+		 */
 		isNewQuestion: function() {
 			return (this.current_question != this.last_question);
 		},
 
-		/*--- present next question to user ---*/
-		askQuestion: function () {
-			$('span.qHeader').text("Question " + (this.current_question) + ":");
-			$('h3.question').text(this.questionList[this.current_question-1].question);
-			for (var i=0; i < this.questionList[this.current_question-1].options.length; i++) {
-			    $('ol.choices').append('<li class=' + i + '><p>'+ this.questionList[this.current_question-1].options[i] + '</p></li>');
-			}
-		},
-
-
-		/*-- reset for new game --*/
-		newGame: function() {
-			this.last_question = 0;
-			this.current_question = 1;
+		/* reset state for new game */
+		resetGame: function() {
+			this.last_question = -1;
+			this.current_question = 0;
 			this.user_score = 0;
 			this.user_answer = 0;
-			var elem = document.getElementById("user-boat");
-			elem.style.width = '10%';
-			elem = document.getElementById("pace-boat");
-			elem.style.width = '10%';
-
-			/* remove any existing data */
-			$('ol.choices li').remove();
-
-			/* hide any modals */
-			$(".gameOver").fadeOut(500);
-			$(".overlay.answer").fadeOut(500);
-
-
-			/*--- need to begin game by asking the first question --*/	
-			this.askQuestion(this.current_question);
-		},
-
-		reportFinalResults: function () {
-			if (this.user_score == 10) {
-				$('span.qHeader').text("Congratulations!");
-				$('h3.question').text("You won the gold medal for "+ this.user_score + " out of 10!");
-			}
-			else if (this.user_score > 6) {
-				$('span.qHeader').text("Great Race!");
-				$('h3.question').text("You came so close to winning, you won "+ this.user_score + " out of 10. Try again!");
-			}
-			else if (this.user_score > 4 ) {
-				$('span.qHeader').text("Good Start!");
-				$('h3.question').text("You're doing great for a beginner, you got "+ this.user_score + " out of 10.  Keep up the good work!");
-			} 
-			else {
-				$('span.qHeader').text("Good Try");
-				$('h3.question').text(this.user_score + " correct out of 10. Keep Practicing!");
-			}
 		}
 	
 	};
 
+$(document).ready(function(){
 
 	var quiz = Object.create(Quiz);
 	quiz.questionList = [];
 
 	/*--- build list of questions - there must be a better way to separate data ---*/
-	/**var questionList = new Array();**/
 	
 	/* Q1 */
 	quiz.addQuestion(
@@ -185,7 +169,7 @@ $(document).ready(function(){
     	"A rower can 'catch a crab' when they have failed to cleanly remove the oar blade from the water and the oar blade acts as a brake on the boat. This results in slowing the boat down. A severe crab can even eject a rower out of the shell or, in a small boat, cause the boat to capsize. In a severe crab, the oar handle will knock the rower flat and will end up behind him/her."
 	);
 
-	/* Q8 */
+	/* Q8 */ 
 	quiz.addQuestion(
 		"To feather is",
     	["Wear fancy hats during a regatta", "To make an error where the rower begins the drive before the oar is in the water", "When all rowers stop rowing", "To turn the oar blade parallel with the surface of the water"],
@@ -208,54 +192,59 @@ $(document).ready(function(){
     	2,
     	"Stretcher is not part of the rowing stroke, but is a movable plate with attached shoes allowing the rower to adjust their position, aka foot stretcher.  The catch is the point at which the blade enters the water. The drive is the duration that the blade is in the water and is the propulsion phase of the stroke.  The finish (aka release) is the point that the oar is released from the water."
 	);	
+
 	
-	
-	/* Display help modal box */
-  	$(".help").click(function(){
-  		/* hide any other modals that may be present */
-  		$(".gameOver").fadeOut(400);
-  		$(".overlay.answer").fadeOut(400);
-    	$(".overlay.help").fadeIn(1000);
-  	});
-
-  	/* Hide help modal box */
-  	$("a.close").click(function(){
-  		event.preventDefault();
-		event.stopPropagation();
-  		$(".overlay").fadeOut(1000);
-  	});
-
-  	
-  	/* start new game */
-  	$(".start").click(function(){
-  		event.preventDefault();
-		event.stopPropagation();
-  		quiz.newGame();
-  	});
+	/*** --UI type functions-- ***/
 
 
-  	/* Hide gameOver modal box */
-  	$("a.closeGameOver").click(function(){
-  		event.preventDefault();
-		event.stopPropagation();
-  		$(".gameOver").fadeOut(1000);
-  	});
-
-
-	/* advances specified boat along progress bar */
+	/* advance specified boat along progress bar */
+    var startPosition = 100/quiz.questionList.length;  /* distance to increment is based on number of questions */
+    var increment = (100-startPosition)/quiz.questionList.length; /* since we are starting at the first increment, adjust how much is moved for each correct answer */
+ 
 	function advanceBoat (boat, count) {
 	    var elem = document.getElementById(boat);
-	    var width = 10;
-        width = 10+(9*count);  /* 10 questions, but we will start at 10%, so move 9% for each correct answer */
-	    elem.style.width = width + '%';
+        var width = startPosition +(increment*count);  
+        elem.style.width = width + '%';
 	};
 
-	/*--- check user's answer & repond accorindlgy --*/
- 	function checkUserAnswer: (answer){
+	function newGame () {
+	
+		quiz.resetGame();		
+		var elem = document.getElementById("user-boat");
+		elem.style.width = '10%';
+		elem = document.getElementById("pace-boat");
+		elem.style.width = '10%';
+
+		/* remove any existing data */
+		$('ol.choices li').remove();
+
+		/* hide any modals */
+		$(".gameOver").fadeOut(500);
+		$(".overlay.answer").fadeOut(500);
+
+		/*--- need to begin game by asking the first question --*/	
+		presentQuestion();
+	};
+
+
+	/* present question to user */
+	function presentQuestion (){
+			var q = {quest:"", options: []}
+			q = quiz.getCurrentQuestion();
+
+			$('span.qHeader').text("Question " + (quiz.current_question + 1) + ":");
+			$('h3.question').text(q.quest);
+			for (var i=0; i < q.options.length; i++) {
+			    $('ol.choices').append('<li class=' + i + '><p>'+ q.options[i] + '</p></li>');
+			};
+	};
+
+	/*--- check user's answer & repond accordingly --*/
+ 	function processUserAnswer(answer) {
 	
 		/* prevent user from answering same question repeatedly */
 		if (quiz.isNewQuestion()) {
-			if (quiz.isCorrectAnswer()){
+			if (quiz.isCorrectAnswer(answer)) {
 				$('h3.status').text("You're Correct!");
 				/* advance boat in progess bar */
 				advanceBoat ('user-boat', quiz.user_score);
@@ -276,39 +265,100 @@ $(document).ready(function(){
 	};
 
 
-	quiz.newGame();
+	function reportFinalResults() {
+		var questionCount = quiz.questionList.length;
+		if (quiz.user_score == questionCount) {
+			$('span.qHeader').text("Congratulations!");
+			$('h3.question').text("You won the gold medal for "+ quiz.user_score + " out of " + questionCount + "!");
+		}
+		else if (quiz.user_score > (questionCount*.6)) {
+			$('span.qHeader').text("Great Race!");
+			$('h3.question').text("You came so close to winning, you won "+ quiz.user_score + " out of " + questionCount + ". Try again!");
+		}
+		else if (quiz.user_score > (questionCount*.4) ) {
+			$('span.qHeader').text("Good Start!");
+			$('h3.question').text("You're doing great for a beginner, you got "+ quiz.user_score + " out of " + questionCount + ".  Keep up the good work!");
+		} 
+		else {
+			$('span.qHeader').text("Good Try!");
+			$('h3.question').text(quiz.user_score + " correct out of " + questionCount + ". Keep Practicing!");
+		}
+	};
+
+
+	newGame();
 
 	
-	/*-- listen for answer response --*/
+	/*** Event handlers  ***/
+
+	/* Display help modal box */
+  	$(".help").click(function(){
+  		event.preventDefault();
+  		/* hide any other modals that may be present */
+  		/*$(".gameOver").fadeOut(400);
+  		$(".overlay.answer").fadeOut(400);
+  		*/
+  		console.log ('help button clicked');
+    	$(".overlay.help").fadeIn(1000);
+  	});
+
+  	/* Hide help modal box */
+  	$("a.close").click(function(){
+  		event.preventDefault();
+  		event.stopPropagation();
+  		console.log ('help screen closed');
+  		$(".overlay.help").fadeOut(1000);
+  	});
+
+  	
+  	/* start new game button */
+  	$(".start").click(function(){
+  		event.preventDefault();
+  		console.log ('new game button clicked');
+  		newGame();
+  	});
+
+
+  	/* Hide gameOver modal box */
+  	$("a.closeGameOver").click(function(){
+  		event.preventDefault();
+  		console.log ('game over screen closed');
+  		$(".gameOver").fadeOut(1000);
+  	});
+
+	/* listen for answer response */
 	$('ol.choices').on ('click', 'li', function (event) {
 		event.preventDefault();
-		event.stopPropagation();
+		console.log ('answer selected');
 		console.log ($(this) );
-		quiz.user_answer = $(this).attr ('class');
-		quiz.checkAnswer(quiz.user_answer);
-		
+		processUserAnswer($(this).attr ('class'));		
 	});		
 
 	
-	/*-- listen for completion of answer explanation --*/
+	/*** Listen for completion of answer explanation 
+		 Can then get the next question 
+		 or report final score if no questions remain
+	***/
 	$('a.next').click( function (event) {
 		event.preventDefault();
-		event.stopPropagation();
+		console.log ('answer explanation screen closed');
 
 		/* remove previous choices */
 		$('ol.choices li').remove();
 		/* Hide answer explanation modal box */
   		$(".overlay.answer").fadeOut(1000);
   
-		console.log ($(this) );
-		/* check if we've reached the end of the questions */
+		/* check if we've reached the end of the questions 
+			and either present next question to user or
+			report final score
+		*/
 		quiz.current_question++;
-		if (quiz.current_question <= quiz.questionList.length) {	
-			quiz.askQuestion(quiz.current_question);
+		if (quiz.current_question < quiz.questionList.length) {	
+			presentQuestion();
 		}
 		else {
 			/* all questions answered, report final results */
-			quiz.reportFinalResults();
+			reportFinalResults();
 		};
 	});
 				
