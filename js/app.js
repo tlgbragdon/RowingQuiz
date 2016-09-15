@@ -6,20 +6,29 @@ $(document).ready(function(){
 	var Question = {
 		question: "",
 		options: [],
-		answer: 0,
+		answer: 0,		/* index of correct answer */
 		explanation: "",
 
 		/* method returns true if userAnswer matches answer or false otherwise */
 		correctAnswer: function (userAnswer) {
 			return (userAnswer == this.answer);
+		},
+
+		getQuestion: function () {
+			return [this.question, this.options];
+		},
+
+		getExplanation: function () {
+			return this.explanation;
 		}
+
 	};
 
 	/*-- Quiz Game object --*/
 	var Quiz = {
-		questionList: [],
-		last_question: 0,
-		current_question: 1,
+		questionList: [],	  /* array of Question objects */
+		last_question: 0,	  /* index of last question answered */
+		current_question: 0,  /* index of current question */
 		user_answer: 0,
 		user_score: 0,	
 
@@ -33,6 +42,32 @@ $(document).ready(function(){
 			this.questionList.push(q);
 		},
 
+		/* returns current question text & array of answer options */
+		getCurrentQuestion: function() {
+			return this.questionList[current_question].getQuestion();
+		},
+
+		/* returns explanation text of current question */
+		getCurrentExplanation: function () {
+			return this.questionList[current_question].getExplanation();
+		},
+
+		/* saves user_answer and returns true if correct; false if incorrect */
+		isCorrectAnswer: function(userAnswer) {
+			this.user_answer = userAnswer;
+			this.last_question = this.current_question;
+			if (this.questionList[current_question].correctAnswer()){
+				user_score++;
+				return true;
+			}
+			else 
+				return false;
+		},
+
+		isNewQuestion: function() {
+			return (this.current_question != this.last_question);
+		},
+
 		/*--- present next question to user ---*/
 		askQuestion: function () {
 			$('span.qHeader').text("Question " + (this.current_question) + ":");
@@ -40,35 +75,6 @@ $(document).ready(function(){
 			for (var i=0; i < this.questionList[this.current_question-1].options.length; i++) {
 			    $('ol.choices').append('<li class=' + i + '><p>'+ this.questionList[this.current_question-1].options[i] + '</p></li>');
 			}
-		},
-
-		/*--- check user's answer & repond accorindlgy --*/
-	 	checkAnswer: function (answer){
-		
-			/* prevent user from answering same question repeatedly */
-			if (this.current_question == this.last_question)
-				return;
-
-			this.last_question = this.current_question;
-			/* answer checking & reporting */
-			if (this.questionList[this.current_question-1].correctAnswer(answer)) {
-				$('h3.status').text("You're Correct!");
-				this.user_score++;
-				/* advance boat in progess bar */
-				advanceBoat ('user-boat', this.user_score);
-			}
-			else {
-				$('h3.status').text("You're Answer is Incorrect");
-			};
-
-			/* advance pace boat in progress bar */
-			advanceBoat ('pace-boat', this.current_question); 
-
-			/* display explanation whether correct or incorrect */
-			$('h3.status +p').text(this.questionList[this.current_question-1].explanation);
-			
-			/* Display answer modal box */
-	    	$(".overlay.answer").fadeIn(1000);
 		},
 
 
@@ -244,7 +250,32 @@ $(document).ready(function(){
 	    elem.style.width = width + '%';
 	};
 
- 
+	/*--- check user's answer & repond accorindlgy --*/
+ 	function checkUserAnswer: (answer){
+	
+		/* prevent user from answering same question repeatedly */
+		if (quiz.isNewQuestion()) {
+			if (quiz.isCorrectAnswer()){
+				$('h3.status').text("You're Correct!");
+				/* advance boat in progess bar */
+				advanceBoat ('user-boat', quiz.user_score);
+			}
+			else {
+				$('h3.status').text("You're Answer is Incorrect");
+			};
+
+			/* advance pace boat in progress bar */
+			advanceBoat ('pace-boat', quiz.current_question + 1); 
+
+			/* display explanation whether correct or incorrect */
+			$('h3.status +p').text(quiz.getCurrentExplanation());
+			
+			/* Display answer modal box */
+	    	$(".overlay.answer").fadeIn(1000);
+	    };
+	};
+
+
 	quiz.newGame();
 
 	
