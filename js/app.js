@@ -235,7 +235,7 @@ $(document).ready(function(){
 			$('span.qHeader').text("Question " + (quiz.current_question + 1) + ":");
 			$('h3.question').text(q.quest);
 			for (var i=0; i < q.options.length; i++) {
-			    $('ol.choices').append('<li class=' + i + '><p>'+ q.options[i] + '</p></li>');
+			    $('ol.choices').append('<li class=' + i + '>'+ q.options[i] + '</li>');
 			};
 	};
 
