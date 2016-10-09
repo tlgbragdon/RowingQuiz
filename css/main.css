@@ -106,6 +106,7 @@ ol.choices {
 	list-style-type: upper-alpha;
 	text-align: left;
 	width: auto;
+	height: 100%;
 	list-style-position: inside; 
 	font-size: 150%;
 }
@@ -117,10 +118,9 @@ ol.choices li {
 }
 
 ol.choices li:hover {
-
 	background-color: #b3003b;
 	color:white;
-
+	padding: 5px 5px 5px 15px;
 }
 
 
