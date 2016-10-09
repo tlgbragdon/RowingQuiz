@@ -298,7 +298,6 @@ $(document).ready(function(){
   		/*$(".gameOver").fadeOut(400);
   		$(".overlay.answer").fadeOut(400);
   		*/
-  		console.log ('help button clicked');
     	$(".overlay.help").fadeIn(1000);
   	});
 
@@ -306,7 +305,6 @@ $(document).ready(function(){
   	$("a.close").click(function(){
   		event.preventDefault();
   		event.stopPropagation();
-  		console.log ('help screen closed');
   		$(".overlay.help").fadeOut(1000);
   	});
 
@@ -314,7 +312,6 @@ $(document).ready(function(){
   	/* start new game button */
   	$(".start").click(function(){
   		event.preventDefault();
-  		console.log ('new game button clicked');
   		newGame();
   	});
 
@@ -322,15 +319,12 @@ $(document).ready(function(){
   	/* Hide gameOver modal box */
   	$("a.closeGameOver").click(function(){
   		event.preventDefault();
-  		console.log ('game over screen closed');
   		$(".gameOver").fadeOut(1000);
   	});
 
 	/* listen for answer response */
 	$('ol.choices').on ('click', 'li', function (event) {
 		event.preventDefault();
-		console.log ('answer selected');
-		console.log ($(this) );
 		processUserAnswer($(this).attr ('class'));		
 	});		
 
@@ -341,7 +335,6 @@ $(document).ready(function(){
 	***/
 	$('a.next').click( function (event) {
 		event.preventDefault();
-		console.log ('answer explanation screen closed');
 
 		/* remove previous choices */
 		$('ol.choices li').remove();
